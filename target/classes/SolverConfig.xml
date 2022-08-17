@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver xmlns="https://www.optaplanner.org/xsd/solver" xmlns:xsi=
+        "http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://www.optaplanner.org/xsd/solver
+https://www.optaplanner.org/xsd/solver/solver.xsd">
+    <solutionClass>models.Solution</solutionClass>
+    <entityClass>models.Item</entityClass>
+    <scoreDirectorFactory>
+      <constraintProviderClass>misc.BinPackingConstraintProvider</constraintProviderClass>
+    </scoreDirectorFactory>
+    <termination>
+        <secondsSpentLimit>5</secondsSpentLimit>
+    </termination>
+    <constructionHeuristic>
+        <termination>
+            <secondsSpentLimit>10</secondsSpentLimit>
+        </termination>
+        <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+    </constructionHeuristic>
+    <localSearch>
+        <termination>
+            <secondsSpentLimit>10</secondsSpentLimit>
+        </termination>
+        <acceptor>
+            <entityTabuRatio>0.01</entityTabuRatio>
+            <moveTabuSize>10</moveTabuSize>
+            <undoMoveTabuSize>10</undoMoveTabuSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>1000</acceptedCountLimit>
+        </forager>
+    </localSearch>
+    <localSearch>
+        <termination>
+            <secondsSpentLimit>10</secondsSpentLimit>
+        </termination>
+        <acceptor>
+            <lateAcceptanceSize>10</lateAcceptanceSize>
+        </acceptor>
+        <forager>
+            <acceptedCountLimit>1</acceptedCountLimit>
+        </forager>
+    </localSearch>
+</solver>
