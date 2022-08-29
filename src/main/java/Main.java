@@ -7,18 +7,30 @@ import org.optaplanner.benchmark.api.PlannerBenchmark;
 import org.optaplanner.benchmark.api.PlannerBenchmarkFactory;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
-import java.io.FileWriter;
 
-import java.io.File;;
+import java.io.FileNotFoundException;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.stream.Collectors;;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         SolverFactory<Solution> solverFactory = SolverFactory
                 .createFromXmlResource("SolverConfig.xml");
 
         // Load the problem
         Solution problem = Solution.generateDemoData();
+
+        // Debugging
+        problem.getItems()
+                .stream()
+                .collect(Collectors.groupingBy(Item::getTankType))
+                .forEach((tankType, items) -> {
+                    System.out.println(tankType.toString() + ":" + items.stream().map(Item::getQty).reduce(0, Integer::sum));
+                } );
+        problem.getTanks().forEach(tank -> System.out.println(tank.getId() + ":" + tank.getCapacity()));
 
         Integer totalItemsQty = problem.getItems().stream().map(Item::getQty).reduce(0, Integer::sum);
         Integer totalTanksCapacity = problem.getTanks().stream().map(Tank::getCapacity).reduce(0, Integer::sum);

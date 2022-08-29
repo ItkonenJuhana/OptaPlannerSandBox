@@ -39,7 +39,7 @@ public class BinPackingConstraintProvider implements ConstraintProvider {
 
     private Constraint wrongTankPenalty(ConstraintFactory constraintFactory) {
         return constraintFactory.forEach(Item.class)
-                .filter(item -> !item.getQty().equals(item.getAssignedTank().getId()))
+                .filter(item -> !item.getTankType().equals(item.getAssignedTank().getId()))
                 .penalize("Wrong tank penalty", HardMediumSoftScore.ONE_MEDIUM);
     }
 }

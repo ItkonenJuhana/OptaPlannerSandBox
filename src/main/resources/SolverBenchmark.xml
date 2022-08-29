@@ -4,8 +4,8 @@
                   xsi:schemaLocation="https://www.optaplanner.org/xsd/benchmark
 https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
     <benchmarkDirectory>local/benchmarks</benchmarkDirectory>
-    <parallelBenchmarkCount>3</parallelBenchmarkCount>
-    <warmUpSecondsSpentLimit>10</warmUpSecondsSpentLimit>
+    <parallelBenchmarkCount>4</parallelBenchmarkCount>
+    <warmUpSecondsSpentLimit>30</warmUpSecondsSpentLimit>
     <inheritedSolverBenchmark>
         <solver>
             <solutionClass>models.Solution</solutionClass>
@@ -13,6 +13,12 @@ https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
             <scoreDirectorFactory>
                 <constraintProviderClass>misc.BinPackingConstraintProvider</constraintProviderClass>
             </scoreDirectorFactory>
+            <constructionHeuristic>
+                <termination>
+                    <secondsSpentLimit>10</secondsSpentLimit>
+                </termination>
+                <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+            </constructionHeuristic>
         </solver>
         <problemBenchmarks>
             <solutionFileIOClass>misc.SolutionJsonSolutionFileIO</solutionFileIOClass>
@@ -21,7 +27,7 @@ https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
     </inheritedSolverBenchmark>
 
     <solverBenchmark>
-        <name>FF_D</name>
+        <name>OG</name>
         <solver>
             <constructionHeuristic>
                 <termination>
@@ -31,7 +37,7 @@ https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
             </constructionHeuristic>
             <localSearch>
                 <termination>
-                    <secondsSpentLimit>10</secondsSpentLimit>
+                    <secondsSpentLimit>100</secondsSpentLimit>
                 </termination>
                 <acceptor>
                     <entityTabuRatio>0.01</entityTabuRatio>
@@ -40,6 +46,36 @@ https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
                 </acceptor>
                 <forager>
                     <acceptedCountLimit>1000</acceptedCountLimit>
+                </forager>
+            </localSearch>
+            <localSearch>
+                <termination>
+                    <secondsSpentLimit>90</secondsSpentLimit>
+                </termination>
+                <acceptor>
+                    <lateAcceptanceSize>10</lateAcceptanceSize>
+                </acceptor>
+                <forager>
+                    <acceptedCountLimit>1</acceptedCountLimit>
+                </forager>
+            </localSearch>
+        </solver>
+    </solverBenchmark>
+
+    <solverBenchmark>
+        <name>PREV_BEST</name>
+        <solver>
+            <localSearch>
+                <termination>
+                    <secondsSpentLimit>180</secondsSpentLimit>
+                </termination>
+                <acceptor>
+                    <entityTabuRatio>0.001</entityTabuRatio>
+                    <moveTabuSize>20</moveTabuSize>
+                    <undoMoveTabuSize>20</undoMoveTabuSize>
+                </acceptor>
+                <forager>
+                    <acceptedCountLimit>100</acceptedCountLimit>
                 </forager>
             </localSearch>
             <localSearch>
@@ -57,48 +93,31 @@ https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
     </solverBenchmark>
 
     <solverBenchmark>
-        <name>FF_D_TABU</name>
+        <name>LOCALE_OPTIMA</name>
         <solver>
-            <constructionHeuristic>
-                <termination>
-                    <secondsSpentLimit>10</secondsSpentLimit>
-                </termination>
-                <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
-            </constructionHeuristic>
             <localSearch>
                 <termination>
-                    <secondsSpentLimit>20</secondsSpentLimit>
+                    <secondsSpentLimit>100</secondsSpentLimit>
                 </termination>
                 <acceptor>
-                    <entityTabuRatio>0.01</entityTabuRatio>
-                    <moveTabuSize>10</moveTabuSize>
-                    <undoMoveTabuSize>10</undoMoveTabuSize>
+                    <entityTabuRatio>0.001</entityTabuRatio>
+                    <moveTabuSize>20</moveTabuSize>
+                    <undoMoveTabuSize>20</undoMoveTabuSize>
                 </acceptor>
                 <forager>
-                    <acceptedCountLimit>1000</acceptedCountLimit>
+                    <acceptedCountLimit>100</acceptedCountLimit>
                 </forager>
             </localSearch>
-        </solver>
-    </solverBenchmark>
-
-    <solverBenchmark>
-        <name>FF_BRUTE</name>
-        <solver>
-            <constructionHeuristic>
-                <termination>
-                    <secondsSpentLimit>10</secondsSpentLimit>
-                </termination>
-                <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
-            </constructionHeuristic>
             <localSearch>
                 <termination>
-                    <secondsSpentLimit>20</secondsSpentLimit>
+                    <secondsSpentLimit>90</secondsSpentLimit>
                 </termination>
                 <acceptor>
-                    <lateAcceptanceSize>10</lateAcceptanceSize>
+                    <entityTabuRatio>0.001</entityTabuRatio>
+                    <lateAcceptanceSize>200</lateAcceptanceSize>
                 </acceptor>
                 <forager>
-                    <acceptedCountLimit>1</acceptedCountLimit>
+                    <acceptedCountLimit>2</acceptedCountLimit>
                 </forager>
             </localSearch>
         </solver>

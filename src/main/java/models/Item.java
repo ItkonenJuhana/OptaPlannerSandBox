@@ -2,6 +2,7 @@ package models;
 
 import io.micrometer.core.lang.Nullable;
 import misc.ItemDifficultyComparator;
+import misc.ItemStrenghtComparator;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
@@ -10,17 +11,20 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 public class Item {
     @PlanningId
     private int id;
-    @PlanningVariable(valueRangeProviderRefs = "tankRange")
+    @PlanningVariable(valueRangeProviderRefs = "tankRange", strengthComparatorClass = ItemStrenghtComparator.class)
     @Nullable
     private Tank assignedTank;
     private Integer qty;
 
+    private Integer tankType;
+
     public Item() {};
 
-    public Item(int id, Tank assignedTank, Integer qty) {
+    public Item(int id, Tank assignedTank, Integer qty, Integer tankType) {
         this.id = id;
         this.assignedTank = assignedTank;
         this.qty = qty;
+        this.tankType = tankType;
     }
 
     public int getId() {
@@ -45,5 +49,13 @@ public class Item {
 
     public void setAssignedTank(Tank assignedTank) {
         this.assignedTank = assignedTank;
+    }
+
+    public Integer getTankType() {
+        return tankType;
+    }
+
+    public void setTankType(Integer tankType) {
+        this.tankType = tankType;
     }
 }
